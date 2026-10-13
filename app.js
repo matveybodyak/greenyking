@@ -28,7 +28,7 @@ function initTelegramApp() {
   document.documentElement.classList.add('tg-mode');
 }
 
-/* ---------- Уникальный клиент (все вкладки одного браузера = 1 посетитель) ---------- */
+/* ---------- Уникальный клиент ---------- */
 function getClientId() {
   let id = localStorage.getItem('krab_client_id');
   if (!id) {
@@ -62,7 +62,6 @@ function setAdminMode(active) {
     window.location.href = 'index.html';
   }
   if (document.body.dataset.page === 'reviews') {
-    // перерисовать бейджи/кнопки под новый режим
     window.__rerenderReviews && window.__rerenderReviews();
   }
 }
@@ -163,7 +162,6 @@ async function sendHeartbeat() {
   } catch (e) { /* тихо */ }
 }
 
-/* CORRECT: cutoff пересчитывается на КАЖДЫЙ снимок, а не один раз */
 function listenToOnlinePresence(callback) {
   return onSnapshot(collection(db, 'online_presence'), (snapshot) => {
     const cutoff = Date.now() - 30000;
@@ -236,15 +234,44 @@ function formatDate(ts) {
   return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
 }
 
-/* ---------- Фотосистема: фолбэк битых/отсутствующих картинок ---------- */
+/* ---------- Фотосистема: цепочка расширений + smart focus + чёткость ---------- */
+function smartFocus(img) {
+  const r = img.naturalWidth / img.naturalHeight;
+  if (r < 0.85) img.style.objectPosition = '50% 32%';       // портрет: держим лица
+  else if (r > 1.7) img.style.objectPosition = '50% 62%';   // широкий кадр: держим блюдо
+  else img.style.objectPosition = '50% 50%';
+}
+
 function initPhotoSystem() {
   document.querySelectorAll('img.photo').forEach((img) => {
-    const fail = () => {
-      const frame = img.closest('.photo-frame');
-      if (frame) frame.classList.add('photo-missing');
+    const frame = img.closest('.photo-frame');
+    const original = img.getAttribute('src') || '';
+    const base = original.replace(/\.(webp|png|jpe?g)$/i, '');
+    const candidates = [original, base + '.jpg', base + '.jpeg', base + '.png', base + '.webp']
+      .filter((v, i, arr) => v && arr.indexOf(v) === i);
+    let idx = 0;
+
+    const succeed = () => {
+      if (frame) frame.classList.remove('photo-missing');
+      img.classList.toggle('photo-lowres', img.naturalWidth > 0 && img.naturalWidth < 800);
+      smartFocus(img);
     };
-    if (img.complete && img.naturalWidth === 0) fail();
-    img.addEventListener('error', fail);
+
+    const tryNext = () => {
+      idx++;
+      if (idx < candidates.length) {
+        img.src = candidates[idx];
+      } else if (frame) {
+        frame.classList.add('photo-missing');
+      }
+    };
+
+    img.addEventListener('load', succeed);
+    img.addEventListener('error', tryNext);
+    if (img.complete) {
+      if (img.naturalWidth > 0) succeed();
+      else tryNext();
+    }
   });
 }
 
