@@ -58,6 +58,7 @@ function setAdminMode(active) {
     showToast('Вы больше не админ', 'error', 'lock_open');
   }
   updateNavigation();
+  sendHeartbeat(); // сразу обновляем флаг isAdmin в presence
   if (!active && document.body.dataset.page === 'analytics') {
     window.location.href = 'index.html';
   }
@@ -148,7 +149,7 @@ function showToast(message, type = 'success', icon = 'check_circle') {
   }, 3000);
 }
 
-/* ---------- Heartbeat онлайна ---------- */
+/* ---------- Heartbeat онлайна (с флагом isAdmin) ---------- */
 async function sendHeartbeat() {
   try {
     await setDoc(doc(db, 'online_presence', clientId), {
@@ -156,26 +157,31 @@ async function sendHeartbeat() {
       timestamp: serverTimestamp(),
       page: document.body.dataset.page || 'unknown',
       isTelegram: !!tgUser,
+      isAdmin: isAdmin(),
       username: tgUser?.username || null,
       firstName: tgUser?.first_name || null
     });
   } catch (e) { /* тихо */ }
 }
 
+/* Админы НЕ считаются пользователями: ни в онлайне, ни в уникальных, ни в разрезе страниц */
 function listenToOnlinePresence(callback) {
   return onSnapshot(collection(db, 'online_presence'), (snapshot) => {
     const cutoff = Date.now() - 30000;
     let online = 0;
+    let total = 0;
     const pages = {};
     snapshot.forEach((d) => {
       const v = d.data();
+      if (v.isAdmin) return;
+      total++;
       const t = v.timestamp?.toDate?.();
       if (t && t.getTime() > cutoff) {
         online++;
         pages[v.page || 'unknown'] = (pages[v.page || 'unknown'] || 0) + 1;
       }
     });
-    callback({ online, total: snapshot.size, pages });
+    callback({ online, total, pages });
   }, () => {});
 }
 
@@ -234,11 +240,11 @@ function formatDate(ts) {
   return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
 }
 
-/* ---------- Фотосистема: цепочка расширений + smart focus + чёткость ---------- */
+/* ---------- Фотосистема ---------- */
 function smartFocus(img) {
   const r = img.naturalWidth / img.naturalHeight;
-  if (r < 0.85) img.style.objectPosition = '50% 32%';       // портрет: держим лица
-  else if (r > 1.7) img.style.objectPosition = '50% 62%';   // широкий кадр: держим блюдо
+  if (r < 0.85) img.style.objectPosition = '50% 32%';
+  else if (r > 1.7) img.style.objectPosition = '50% 62%';
   else img.style.objectPosition = '50% 50%';
 }
 
@@ -392,11 +398,12 @@ function initReviewsPage() {
   const list = document.getElementById('reviews-list');
   let rating = 0;
 
+  /* Имя редактируемо ВСЕМИ: браузер prefilled пустым, TG — prefilled, но НЕ readOnly */
   const nameInput = document.getElementById('review-name');
   if (tgUser && nameInput) {
     nameInput.value = tgUser.first_name || tgUser.username || '';
-    nameInput.readOnly = true;
-    nameInput.style.opacity = '0.7';
+    nameInput.readOnly = false;
+    nameInput.style.opacity = '1';
   }
 
   stars.forEach((star, i) => {
