@@ -57,7 +57,6 @@ body {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* Глубина океана: каустики света */
 body::before {
   content: '';
   position: fixed;
@@ -70,7 +69,6 @@ body::before {
   z-index: -2;
 }
 
-/* Зерно плёнки без SVG: тонкая сетка микро-градиентов */
 body::after {
   content: '';
   position: fixed;
@@ -83,7 +81,6 @@ body::after {
   mix-blend-mode: overlay;
 }
 
-/* Иконки Material Symbols (шрифт-лигатура через API, без SVG) */
 .mi {
   font-family: 'Material Symbols Rounded';
   font-weight: normal;
@@ -307,7 +304,7 @@ section { padding: 2rem 0; position: relative; }
 .page-header h1 { margin-bottom: 1rem; }
 .page-header p { margin: 0 auto; max-width: 620px; }
 
-/* ===== DECOR: спасательный круг, иллюминатор, заклёпки, доски ===== */
+/* ===== DECOR ===== */
 .lifebuoy {
   position: absolute;
   width: 150px;
@@ -417,11 +414,7 @@ section { padding: 2rem 0; position: relative; }
   overflow: hidden;
 }
 
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-}
+.hero-bg { position: absolute; inset: 0; z-index: -1; }
 
 .hero-bg::before {
   content: '';
@@ -634,6 +627,19 @@ section { padding: 2rem 0; position: relative; }
   margin-bottom: 1.4rem;
 }
 
+/* Виньетка-иллюминатор: любой снимок получает киношный грейд */
+.photo-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(11, 20, 38, 0.26) 0%, transparent 26%, transparent 68%, rgba(11, 20, 38, 0.38) 100%),
+    radial-gradient(130% 100% at 50% 0%, transparent 55%, rgba(11, 20, 38, 0.22) 100%);
+}
+
+/* Медные заклёпки по углам */
 .photo-frame::after {
   content: '';
   position: absolute;
@@ -652,14 +658,26 @@ section { padding: 2rem 0; position: relative; }
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 50% 50%;
+  image-orientation: from-image;
+  image-rendering: auto;
   display: block;
-  transform: scale(1.01);
+  filter: saturate(1.08) contrast(1.06) brightness(1.02);
+  transform: translateZ(0) scale(1.01);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-user-drag: none;
   transition: transform 0.6s var(--transition), opacity 0.4s;
+}
+
+/* Компенсатор для мелких исходников: апскейл без мыла */
+.photo-frame img.photo.photo-lowres {
+  filter: saturate(1.12) contrast(1.14) brightness(1.03);
 }
 
 .bento-card:hover img.photo,
 .menu-item:hover img.photo,
-.team-card:hover img.photo { transform: scale(1.07); }
+.team-card:hover img.photo { transform: translateZ(0) scale(1.07); }
 
 .photo-fallback {
   position: absolute;
