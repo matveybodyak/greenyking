@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0b1426">
   <title>Меню — Красти Крабс</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0..200&display=swap">
-  <link rel="stylesheet" href="style.css?v=20261015">
+  <link rel="stylesheet" href="style.css?v=20261016">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body data-page="menu">
@@ -38,23 +38,22 @@
     <header class="page-header fade-in">
       <div class="lifebuoy lifebuoy--sm" style="top:20%; right:6%;"></div>
       <h1>Меню</h1>
-      <p>Отборные ингредиенты со дна океана. Каждая котлета — произведение искусства от Спанч Боба.</p>
+      <p>Только легенды. Никаких экспериментов — лишь то, за чем плывут со всего Бикини Боттом.</p>
     </header>
 
     <div class="menu-filters fade-in">
       <button class="filter-btn active" data-filter="all"><span class="mi">apps</span>Все</button>
-      <button class="filter-btn" data-filter="krabsburgers"><span class="mi">lunch_dining</span>Крабсбургеры</button>
-      <button class="filter-btn" data-filter="double"><span class="mi">dinner_dining</span>Двойные</button>
+      <button class="filter-btn" data-filter="signature"><span class="mi">lunch_dining</span>Фирменные</button>
       <button class="filter-btn" data-filter="sides"><span class="mi">bento</span>Закуски</button>
       <button class="filter-btn" data-filter="drinks"><span class="mi">local_drink</span>Напитки</button>
     </div>
 
     <div class="menu-grid">
 
-      <article class="menu-item fade-in" data-category="krabsburgers">
+      <article class="menu-item fade-in" data-category="signature">
         <span class="menu-badge"><span class="mi">local_fire_department</span>Хит</span>
         <div class="photo-frame">
-          <img class="photo" src="images/food/krabsburger-classic.webp" alt="Крабсбургер Классический" loading="lazy">
+          <img class="photo" src="images/food/burger.jpg" alt="Крабсбургер Классический" loading="lazy">
           <div class="photo-fallback"><span class="mi">lunch_dining</span><small>Фото жарится на гриле</small></div>
         </div>
         <div class="menu-item-header">
@@ -65,36 +64,9 @@
         <p class="menu-item-ingredients">Состав: булочка с кунжутом, говяжья котлета, салат, сыр, помидор, маринованный огурец, лук, крабс-соус</p>
       </article>
 
-      <article class="menu-item fade-in" data-category="krabsburgers">
+      <article class="menu-item fade-in" data-category="signature">
         <div class="photo-frame">
-          <img class="photo" src="images/food/krabsburger-morsky-volk.webp" alt="Крабсбургер Морской волк" loading="lazy">
-          <div class="photo-fallback"><span class="mi">set_meal</span><small>Фото жарится на гриле</small></div>
-        </div>
-        <div class="menu-item-header">
-          <div class="menu-item-name">Крабсбургер «Морской волк»</div>
-          <div class="menu-item-price">16.50 BYN</div>
-        </div>
-        <p class="menu-item-desc">Для настоящих ценителей. С водорослями нори и соусом из медуз.</p>
-        <p class="menu-item-ingredients">Состав: булочка с чернилами каракатицы, двойная котлета, водоросли нори, соус из медуз, салат</p>
-      </article>
-
-      <article class="menu-item fade-in" data-category="krabsburgers">
-        <span class="menu-badge"><span class="mi">auto_awesome</span>Новинка</span>
-        <div class="photo-frame">
-          <img class="photo" src="images/food/krabsburger-truffle.webp" alt="Крабсбургер Трюфельный риф" loading="lazy">
-          <div class="photo-fallback"><span class="mi">auto_awesome</span><small>Фото жарится на гриле</small></div>
-        </div>
-        <div class="menu-item-header">
-          <div class="menu-item-name">Крабсбургер «Трюфельный риф»</div>
-          <div class="menu-item-price">19.90 BYN</div>
-        </div>
-        <p class="menu-item-desc">Haute-cuisine версия с трюфельным маслом и карамелизированным луком.</p>
-        <p class="menu-item-ingredients">Состав: бриошь, котлета вагю, трюфельное масло, карамельный лук, руккола, пармезан</p>
-      </article>
-
-      <article class="menu-item fade-in" data-category="double">
-        <div class="photo-frame">
-          <img class="photo" src="images/food/double-krabsburger.webp" alt="Двойной Крабсбургер" loading="lazy">
+          <img class="photo" src="images/food/double.jpg" alt="Двойной Крабсбургер" loading="lazy">
           <div class="photo-fallback"><span class="mi">dinner_dining</span><small>Фото жарится на гриле</small></div>
         </div>
         <div class="menu-item-header">
@@ -105,23 +77,23 @@
         <p class="menu-item-ingredients">Состав: булочка, 2 говяжьи котлеты, 2 сыра чеддер, салат, помидор, крабс-соус</p>
       </article>
 
-      <article class="menu-item fade-in" data-category="double">
-        <span class="menu-badge"><span class="mi">local_fire_department</span>Остро</span>
+      <article class="menu-item fade-in" data-category="signature">
+        <span class="menu-badge"><span class="mi">auto_awesome</span>Мем</span>
         <div class="photo-frame">
-          <img class="photo" src="images/food/double-spicy.webp" alt="Двойной Жгучий риф" loading="lazy">
-          <div class="photo-fallback"><span class="mi">local_fire_department</span><small>Фото жарится на гриле</small></div>
+          <img class="photo" src="images/food/manka.jpg" alt="Манка со шпротами" loading="lazy">
+          <div class="photo-fallback"><span class="mi">soup_kitchen</span><small>Фото жарится на гриле</small></div>
         </div>
         <div class="menu-item-header">
-          <div class="menu-item-name">Двойной «Жгучий риф»</div>
-          <div class="menu-item-price">21.50 BYN</div>
+          <div class="menu-item-name">Манка со шпротами</div>
+          <div class="menu-item-price">9.90 BYN</div>
         </div>
-        <p class="menu-item-desc">Для тех, у кого внутри огонь. Халапеньо, чили и огненный соус.</p>
-        <p class="menu-item-ingredients">Состав: булочка, 2 острые котлеты, халапеньо, перец чили, огненный соус</p>
+        <p class="menu-item-desc">Манная каша на крабьем молоке с балтийскими шпротами. Культ-классика дна: кто попробовал — тот остался.</p>
+        <p class="menu-item-ingredients">Состав: манка, крабье молоко, шпроты, сливочное масло, чёрный перец, укроп</p>
       </article>
 
       <article class="menu-item fade-in" data-category="sides">
         <div class="photo-frame">
-          <img class="photo" src="images/food/korallovye-poloski.webp" alt="Коралловые полоски" loading="lazy">
+          <img class="photo" src="images/food/strips.jpg" alt="Коралловые полоски" loading="lazy">
           <div class="photo-fallback"><span class="mi">bento</span><small>Фото жарится на гриле</small></div>
         </div>
         <div class="menu-item-header">
@@ -132,49 +104,23 @@
         <p class="menu-item-ingredients">Состав: морковь, батат, панировка, мёд, горчица, специи</p>
       </article>
 
-      <article class="menu-item fade-in" data-category="sides">
-        <div class="photo-frame">
-          <img class="photo" src="images/food/lukovye-kolca.webp" alt="Луковые кольца Атолл" loading="lazy">
-          <div class="photo-fallback"><span class="mi">donut_large</span><small>Фото жарится на гриле</small></div>
-        </div>
-        <div class="menu-item-header">
-          <div class="menu-item-name">Луковые кольца «Атолл»</div>
-          <div class="menu-item-price">5.90 BYN</div>
-        </div>
-        <p class="menu-item-desc">Толстые кольца красного лука в хрустящей панировке. Подаются с соусом.</p>
-        <p class="menu-item-ingredients">Состав: красный лук, панировка, масло, соус «Тысяча островов»</p>
-      </article>
-
-      <article class="menu-item fade-in" data-category="sides">
-        <div class="photo-frame">
-          <img class="photo" src="images/food/naggetsy-gubka.webp" alt="Наггетсы Губка" loading="lazy">
-          <div class="photo-fallback"><span class="mi">cookie</span><small>Фото жарится на гриле</small></div>
-        </div>
-        <div class="menu-item-header">
-          <div class="menu-item-name">Наггетсы «Губка»</div>
-          <div class="menu-item-price">8.50 BYN</div>
-        </div>
-        <p class="menu-item-desc">Форма — как у Спанч Боба. Вкус — как у победы. 6 штук с тремя соусами.</p>
-        <p class="menu-item-ingredients">Состав: куриное филе, панировка, соусы: крабс, барбекю, сырный</p>
-      </article>
-
       <article class="menu-item fade-in" data-category="drinks">
         <div class="photo-frame">
-          <img class="photo" src="images/food/vodoroslevy-sheyk.webp" alt="Водорослевый шейк" loading="lazy">
+          <img class="photo" src="images/food/shake.jpg" alt="Водорослевый шейк" loading="lazy">
           <div class="photo-fallback"><span class="mi">icecream</span><small>Фото жарится на гриле</small></div>
         </div>
         <div class="menu-item-header">
           <div class="menu-item-name">Водорослевый шейк</div>
           <div class="menu-item-price">7.90 BYN</div>
         </div>
-        <p class="menu-item-desc">Зелёный, как планктон. Мятно-лаймовый со спирулиной. Освежает как шторм.</p>
+        <p class="menu-item-desc">Зелёный, как Планктон. Мятно-лаймовый со спирулиной. Освежает как шторм.</p>
         <p class="menu-item-ingredients">Состав: молоко, спирулина, мята, лайм, мёд, лёд</p>
       </article>
 
       <article class="menu-item fade-in" data-category="drinks">
         <span class="menu-badge"><span class="mi">local_fire_department</span>Хит</span>
         <div class="photo-frame">
-          <img class="photo" src="images/food/limonad-meduza.webp" alt="Лимонад Медуза" loading="lazy">
+          <img class="photo" src="images/food/lemonade.jpg" alt="Лимонад Медуза" loading="lazy">
           <div class="photo-fallback"><span class="mi">local_drink</span><small>Фото жарится на гриле</small></div>
         </div>
         <div class="menu-item-header">
@@ -183,32 +129,6 @@
         </div>
         <p class="menu-item-desc">Розовый, игристый и с пузырьками. Как поймать медузу — но вкуснее.</p>
         <p class="menu-item-ingredients">Состав: вода, лимон, розовый грейпфрут, тростниковый сахар, газ</p>
-      </article>
-
-      <article class="menu-item fade-in" data-category="drinks">
-        <div class="photo-frame">
-          <img class="photo" src="images/food/milkshake-spongebob.webp" alt="Молочный коктейль Губка Боб" loading="lazy">
-          <div class="photo-fallback"><span class="mi">icecream</span><small>Фото жарится на гриле</small></div>
-        </div>
-        <div class="menu-item-header">
-          <div class="menu-item-name">Молочный коктейль «Губка Боб»</div>
-          <div class="menu-item-price">8.50 BYN</div>
-        </div>
-        <p class="menu-item-desc">Жёлтый, банановый, с карамелью и взбитыми сливками. В квадратном стакане.</p>
-        <p class="menu-item-ingredients">Состав: ванильное мороженое, банан, карамель, молоко, сливки</p>
-      </article>
-
-      <article class="menu-item fade-in" data-category="drinks">
-        <div class="photo-frame">
-          <img class="photo" src="images/food/espresso-glubina.webp" alt="Эспрессо Глубина" loading="lazy">
-          <div class="photo-fallback"><span class="mi">local_cafe</span><small>Фото жарится на гриле</small></div>
-        </div>
-        <div class="menu-item-header">
-          <div class="menu-item-name">Эспрессо «Глубина»</div>
-          <div class="menu-item-price">4.50 BYN</div>
-        </div>
-        <p class="menu-item-desc">Двойной эспрессо из зёрен тёмной обжарки. Крепче, чем терпение Сквидварда.</p>
-        <p class="menu-item-ingredients">Состав: зёрна арабики тёмной обжарки</p>
       </article>
 
     </div>
@@ -223,6 +143,6 @@
     </div>
   </footer>
 
-  <script type="module" src="app.js?v=20261015"></script>
+  <script type="module" src="app.js?v=20261016"></script>
 </body>
 </html>
