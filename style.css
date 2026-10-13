@@ -128,6 +128,12 @@ p {
 a { color: var(--sauce); text-decoration: none; transition: color 0.3s var(--transition); }
 a:hover { color: var(--sauce-glow); }
 
+/* Быстрые тапы без double-tap zoom и без дёрганий */
+.nav-logo, .nav-burger, .btn, .filter-btn, .star-rating .star {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* ===== NAV ===== */
 .nav {
   position: fixed;
@@ -163,7 +169,7 @@ a:hover { color: var(--sauce-glow); }
   gap: 0.75rem;
   cursor: pointer;
   user-select: none;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
 }
 
 .logo-monogram {
@@ -179,7 +185,6 @@ a:hover { color: var(--sauce-glow); }
   color: var(--navy);
   position: relative;
   box-shadow: 0 4px 16px rgba(255, 182, 39, 0.35), inset 0 -3px 6px rgba(0, 0, 0, 0.25);
-  transition: transform 0.3s var(--spring);
 }
 
 .logo-monogram::after {
@@ -189,8 +194,6 @@ a:hover { color: var(--sauce-glow); }
   border: 2px solid rgba(199, 123, 74, 0.5);
   border-radius: 50%;
 }
-
-.nav-logo:active .logo-monogram { transform: scale(0.88) rotate(-8deg); }
 
 .nav-logo-text {
   font-family: 'Unbounded', sans-serif;
@@ -627,7 +630,6 @@ section { padding: 2rem 0; position: relative; }
   margin-bottom: 1.4rem;
 }
 
-/* Виньетка-иллюминатор: любой снимок получает киношный грейд */
 .photo-frame::before {
   content: '';
   position: absolute;
@@ -639,7 +641,6 @@ section { padding: 2rem 0; position: relative; }
     radial-gradient(130% 100% at 50% 0%, transparent 55%, rgba(11, 20, 38, 0.22) 100%);
 }
 
-/* Медные заклёпки по углам */
 .photo-frame::after {
   content: '';
   position: absolute;
@@ -670,7 +671,6 @@ section { padding: 2rem 0; position: relative; }
   transition: transform 0.6s var(--transition), opacity 0.4s;
 }
 
-/* Компенсатор для мелких исходников: апскейл без мыла */
 .photo-frame img.photo.photo-lowres {
   filter: saturate(1.12) contrast(1.14) brightness(1.03);
 }
