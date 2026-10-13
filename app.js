@@ -58,7 +58,7 @@ function setAdminMode(active) {
     showToast('Вы больше не админ', 'error', 'lock_open');
   }
   updateNavigation();
-  sendHeartbeat(); // сразу обновляем флаг isAdmin в presence
+  sendHeartbeat();
   if (!active && document.body.dataset.page === 'analytics') {
     window.location.href = 'index.html';
   }
@@ -149,7 +149,7 @@ function showToast(message, type = 'success', icon = 'check_circle') {
   }, 3000);
 }
 
-/* ---------- Heartbeat онлайна (с флагом isAdmin) ---------- */
+/* ---------- Heartbeat онлайна ---------- */
 async function sendHeartbeat() {
   try {
     await setDoc(doc(db, 'online_presence', clientId), {
@@ -164,7 +164,7 @@ async function sendHeartbeat() {
   } catch (e) { /* тихо */ }
 }
 
-/* Админы НЕ считаются пользователями: ни в онлайне, ни в уникальных, ни в разрезе страниц */
+/* Админы не считаются пользователями */
 function listenToOnlinePresence(callback) {
   return onSnapshot(collection(db, 'online_presence'), (snapshot) => {
     const cutoff = Date.now() - 30000;
@@ -358,7 +358,8 @@ function renderReviews(reviews, container) {
   }
   container.innerHTML = reviews.map((r) => {
     const stars = '★'.repeat(r.rating || 0) + '☆'.repeat(5 - (r.rating || 0));
-    const displayName = r.firstName || r.name || 'Аноним';
+    /* ПРИОРИТЕТ ИМЕНИ: то, что написал человек, а не автоимя из Telegram */
+    const displayName = r.name || r.firstName || 'Аноним';
     const initial = displayName.trim().charAt(0).toUpperCase() || 'A';
     const admin = isAdmin();
     const badge = admin
@@ -396,14 +397,16 @@ function initReviewsPage() {
   const form = document.getElementById('review-form');
   const stars = document.querySelectorAll('.star-rating .star');
   const list = document.getElementById('reviews-list');
+  const textArea = document.getElementById('review-text');
+  const nameInput = document.getElementById('review-name');
   let rating = 0;
 
-  /* Имя редактируемо ВСЕМИ: браузер prefilled пустым, TG — prefilled, но НЕ readOnly */
-  const nameInput = document.getElementById('review-name');
-  if (tgUser && nameInput) {
-    nameInput.value = tgUser.first_name || tgUser.username || '';
-    nameInput.readOnly = false;
-    nameInput.style.opacity = '1';
+  /* Префилл имени: сначала сохранённое самим пользователем, потом TG, иначе пусто.
+     Поле редактируемо для ВСЕХ — никакого readOnly. */
+  if (nameInput) {
+    const savedName = localStorage.getItem('krab_review_name');
+    if (savedName) nameInput.value = savedName;
+    else if (tgUser) nameInput.value = tgUser.first_name || tgUser.username || '';
   }
 
   stars.forEach((star, i) => {
@@ -415,16 +418,20 @@ function initReviewsPage() {
 
   if (form) form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const text = document.getElementById('review-text').value.trim();
-    const name = document.getElementById('review-name').value.trim();
+    const text = (textArea ? textArea.value : '').trim();
+    const name = (nameInput ? nameInput.value : '').trim();
     if (!rating) { showToast('Поставьте оценку', 'error', 'star'); return; }
     if (!text) { showToast('Напишите пару слов', 'error', 'edit'); return; }
+
     const ok = await submitReview(rating, text, name);
     if (ok) {
-      form.reset();
+      /* Имя НЕ сбрасываем и НЕ перезаписываем: остаётся то, что выбрал человек.
+         Дополнительно запоминаем его между визитами. */
+      if (name) localStorage.setItem('krab_review_name', name);
+      if (textArea) textArea.value = '';
       rating = 0;
       stars.forEach((s) => s.classList.remove('active'));
-      if (tgUser && nameInput) nameInput.value = tgUser.first_name || tgUser.username || '';
+      if (nameInput) nameInput.value = name;
     }
   });
 
